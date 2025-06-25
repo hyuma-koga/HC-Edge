@@ -25,6 +25,15 @@ public class FanBlock3DGenerator : MonoBehaviour
     }
 #endif
 
+    private void Start()
+    {
+        // 実行時のみトリガー生成
+        if (Application.isPlaying)
+        {
+            CreateScoreTrigger();
+        }
+    }
+
     public void GenerateFanBlock3D()
     {
         Mesh mesh = new Mesh();
@@ -112,5 +121,25 @@ public class FanBlock3DGenerator : MonoBehaviour
         collider.sharedMesh = null;
         collider.sharedMesh = mesh;
         collider.convex = true;
+    }
+
+    private void CreateScoreTrigger()
+    {
+        // 既存のトリガーがあれば削除
+        Transform existing = transform.Find("ScoreTrigger");
+        if (existing != null)
+        {
+            Destroy(existing.gameObject);
+        }
+
+        GameObject triggerObj = new GameObject("ScoreTrigger");
+        triggerObj.transform.SetParent(transform, false);
+        triggerObj.transform.localPosition = new Vector3(0, -0.5f, 0);
+
+        BoxCollider trigger = triggerObj.AddComponent<BoxCollider>();
+        trigger.isTrigger = true;
+        trigger.size = new Vector3(6f, 0.5f, 6f);
+
+        triggerObj.AddComponent<ScoreTrigger>();
     }
 }
