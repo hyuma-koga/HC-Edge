@@ -16,7 +16,7 @@ public class FanBlock3DGenerator : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        // エディタの次フレームでGenerateを実行（sharedMesh変更はこのタイミングでOK）
+        // エディタ上でパラメータ変更時に自動生成
         EditorApplication.delayCall += () =>
         {
             if (this == null) return; // 削除された場合
@@ -33,7 +33,7 @@ public class FanBlock3DGenerator : MonoBehaviour
 
         int vCount = (segments + 1) * 2;
         Vector3[] vertices = new Vector3[vCount * 2];
-        int[] triangles = new int[segments * 6 * 4 + 12]; // 端面追加のため+12
+        int[] triangles = new int[segments * 6 * 4 + 12];
 
         // 頂点生成
         for (int i = 0; i <= segments; i++)
@@ -82,20 +82,20 @@ public class FanBlock3DGenerator : MonoBehaviour
             triangles[ti++] = j2; triangles[ti++] = i0; triangles[ti++] = i2;
         }
 
-        // 始点側の端面
-        triangles[ti++] = vCount + 0; // 上内
-        triangles[ti++] = 0;          // 下内
-        triangles[ti++] = vCount + 1; // 上外
+        // 始点端面
+        triangles[ti++] = vCount + 0;
+        triangles[ti++] = 0;
+        triangles[ti++] = vCount + 1;
 
         triangles[ti++] = vCount + 1;
         triangles[ti++] = 0;
         triangles[ti++] = 1;
 
-        // 終点側の端面
+        // 終点端面
         int li = segments * 2;
-        triangles[ti++] = vCount + li + 1; // 上外
-        triangles[ti++] = li + 1;          // 下外
-        triangles[ti++] = vCount + li;     // 上内
+        triangles[ti++] = vCount + li + 1;
+        triangles[ti++] = li + 1;
+        triangles[ti++] = vCount + li;
 
         triangles[ti++] = vCount + li;
         triangles[ti++] = li + 1;
@@ -106,5 +106,11 @@ public class FanBlock3DGenerator : MonoBehaviour
         mesh.RecalculateNormals();
 
         GetComponent<MeshFilter>().sharedMesh = mesh;
+
+        MeshCollider collider = GetComponent<MeshCollider>();
+        if (collider == null) collider = gameObject.AddComponent<MeshCollider>();
+        collider.sharedMesh = null;
+        collider.sharedMesh = mesh;
+        collider.convex = true;
     }
 }
