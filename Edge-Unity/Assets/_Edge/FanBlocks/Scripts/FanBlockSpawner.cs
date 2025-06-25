@@ -4,8 +4,8 @@ public class FanBlockSpawner : MonoBehaviour
 {
     public GameObject fanBlockPrefab;
     public float startY = 0f;
-    public float endY = 100f;
-    public float intervalY = 3f;
+    public float endY = 90f;
+    public float intervalY = 5f;
 
     private int blocksPerLevel = 2;
     private float radius = 0f; // 配置用の半径（柱の中心からの距離）

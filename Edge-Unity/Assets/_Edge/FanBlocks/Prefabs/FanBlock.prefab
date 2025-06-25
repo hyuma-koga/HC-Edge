@@ -103,7 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radiusInner: 2.4
   radiusOuter: 4
-  height: 0.2
+  height: 0.7
   angleDegree: 70
   segments: 60
 --- !u!64 &3384469966284833921
