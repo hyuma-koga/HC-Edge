@@ -4,7 +4,7 @@ public class FanBlockSpawner : MonoBehaviour
 {
     public GameObject fanBlockPrefab;
     public float startY = 0f;
-    public float endY = 40f;
+    public float endY = 100f;
     public float intervalY = 3f;
 
     private int blocksPerLevel = 2;
