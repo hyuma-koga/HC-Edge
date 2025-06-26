@@ -2,16 +2,17 @@ using UnityEngine;
 
 public class PlayerSquashBounce : MonoBehaviour
 {
-    public float squashAmountY = 0.6f;   // Y方向に潰す比率
-    public float squashAmountX = 1.2f;   // XZ方向に広げる比率
-    public float squashSpeed = 10f;      // 潰れるスピード
-    public float returnSpeed = 5f;       // 元に戻るスピード
+    public float squashAmountY = 0.6f;
+    public float squashAmountX = 1.2f;
+    public float squashSpeed = 10f;
+    public float returnSpeed = 5f;
 
     private Vector3 originalScale;
     private Vector3 squashScale;
     private Vector3 currentVelocity;
     private bool isSquashing = false;
     private bool isReturning = false;
+    private bool gameCleared = false;
 
     void Start()
     {
@@ -29,11 +30,16 @@ public class PlayerSquashBounce : MonoBehaviour
         {
             isSquashing = true;
             isReturning = false;
-        }
 
-        if (ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.ResetCombo();
+            // コンボリセット
+            ScoreManager.Instance?.ResetCombo();
+
+            // 最終FanBlockならゲームクリア処理
+            if (!gameCleared && collision.gameObject.GetComponent<FinalFanBlockMarker>() != null)
+            {
+                gameCleared = true;
+                GameClearManager.Instance?.TriggerGameClear();
+            }
         }
     }
 

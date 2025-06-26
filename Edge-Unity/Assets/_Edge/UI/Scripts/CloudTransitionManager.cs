@@ -19,6 +19,8 @@ public class CloudTransitionManager : MonoBehaviour
 
     private string targetScene = "";
     private float elapsedTime = 0f;
+    private bool loadScenePending = false;
+
     private enum State { None, SlideIn, Wait, SlideOut }
     private State currentState = State.None;
 
@@ -35,35 +37,81 @@ public class CloudTransitionManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 通常のシーン遷移用スライド開始
+    /// </summary>
     public void GoToScene(string sceneName)
     {
         if (currentState != State.None) return;
 
         targetScene = sceneName;
+        loadScenePending = true;
+
+        StartSlide();
+    }
+
+    /// <summary>
+    /// スライド演出のみ（シーン遷移なし）
+    /// </summary>
+    public void StartSlideOnly()
+    {
+        if (currentState != State.None) return;
+
+        targetScene = "";
+        loadScenePending = false;
+
+        StartSlide();
+    }
+
+    /// <summary>
+    /// 指定秒後に遷移演出を開始
+    /// </summary>
+    public void GoToSceneWithDelay(float delaySeconds, string sceneName)
+    {
+        targetScene = sceneName;
+        loadScenePending = true;
+
+        Invoke(nameof(StartSlide), delaySeconds);
+    }
+
+    /// <summary>
+    /// 雲演出スライド開始処理（内部呼び出し用）
+    /// </summary>
+    private void StartSlide()
+    {
         cloudCanvas.gameObject.SetActive(true);
         cloudPanel.anchoredPosition = rightPos;
+
         currentState = State.SlideIn;
         elapsedTime = 0f;
     }
 
     void Update()
     {
+        if (cloudPanel == null || cloudCanvas == null) return;
+
         switch (currentState)
         {
             case State.SlideIn:
                 elapsedTime += Time.deltaTime;
                 cloudPanel.anchoredPosition = Vector2.Lerp(rightPos, centerPos, elapsedTime / slideDuration);
+
                 if (elapsedTime >= slideDuration)
                 {
                     currentState = State.Wait;
                     elapsedTime = 0f;
-                    SceneManager.sceneLoaded += OnSceneLoaded;
-                    SceneManager.LoadScene(targetScene);
+
+                    if (loadScenePending && !string.IsNullOrEmpty(targetScene))
+                    {
+                        SceneManager.sceneLoaded += OnSceneLoaded;
+                        SceneManager.LoadScene(targetScene);
+                    }
                 }
                 break;
 
             case State.Wait:
                 elapsedTime += Time.deltaTime;
+
                 if (elapsedTime >= centerWaitDuration)
                 {
                     currentState = State.SlideOut;
@@ -74,6 +122,7 @@ public class CloudTransitionManager : MonoBehaviour
             case State.SlideOut:
                 elapsedTime += Time.deltaTime;
                 cloudPanel.anchoredPosition = Vector2.Lerp(centerPos, leftPos, elapsedTime / slideDuration);
+
                 if (elapsedTime >= slideDuration)
                 {
                     currentState = State.None;
@@ -86,6 +135,6 @@ public class CloudTransitionManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        cloudCanvas.sortingOrder = 1000;
+        cloudCanvas.sortingOrder = 1000; // 演出用パネルが背面に回らないよう保険的に維持
     }
 }
