@@ -7094,6 +7094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameClearUI: {fileID: 1039323270}
   scoreText: {fileID: 449119798}
+  stageNumberText: {fileID: 903118636}
   delayBeforeTransition: 3
   titleSceneName: TitleScene
 --- !u!1 &2140768850

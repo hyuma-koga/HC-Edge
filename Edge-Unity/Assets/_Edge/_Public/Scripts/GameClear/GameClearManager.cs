@@ -8,6 +8,7 @@ public class GameClearManager : MonoBehaviour
     [Header("UI")]
     public GameObject gameClearUI;
     public Text scoreText;
+    public Text stageNumberText; // ← 追加
 
     [Header("設定")]
     public float delayBeforeTransition = 3f;
@@ -39,14 +40,22 @@ public class GameClearManager : MonoBehaviour
 
         isClearProcessed = true;
 
-        StageManager.Instance?.AdvanceToNextStageAndSave();
-
         ScoreManager.Instance?.SetScoreUIActive(false);
 
         if (scoreText != null && ScoreManager.Instance != null)
         {
             scoreText.text = ScoreManager.Instance.score.ToString();
         }
+
+        // ステージ番号の表示は AdvanceToNextStageAndSave() の前に行う
+        if (stageNumberText != null && StageManager.Instance != null)
+        {
+            int stageNumber = StageManager.Instance.currentStageIndex + 1;
+            stageNumberText.text = $"{stageNumber}";
+        }
+
+        // ステージ進行は後にずらす
+        StageManager.Instance?.AdvanceToNextStageAndSave();
 
         if (gameClearUI != null)
         {
