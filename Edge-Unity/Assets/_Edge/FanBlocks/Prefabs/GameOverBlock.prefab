@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 828180649750912602}
   - component: {fileID: 3384469966284833921}
   - component: {fileID: 8093507085983106059}
+  - component: {fileID: 2928063185157101586}
   m_Layer: 0
-  m_Name: FanBlock
+  m_Name: GameOverBlock
   m_TagString: FanBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d78d60548fedbe34a8458c2d3f0bf617, type: 2}
+  - {fileID: 2100000, guid: a61c35c72dbefbc4fac7329ef6958a5a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,7 +106,7 @@ MonoBehaviour:
   radiusInner: 2.4
   radiusOuter: 4
   height: 0.7
-  angleDegree: 70
+  angleDegree: 20
   segments: 60
 --- !u!64 &3384469966284833921
 MeshCollider:
@@ -144,3 +145,15 @@ MonoBehaviour:
   dentDepth: 0.5
   dentRadius: 2
   recoverSpeed: 2.5
+--- !u!114 &2928063185157101586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000605655221022469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36273fdc4b67a3f458ca8e452ff0f538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -7,6 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class FanBlock3DGenerator : MonoBehaviour
 {
+    [Header("ゲームオーバー設定")]
+    public bool isGameOverBlock = false;
+
     public float radiusInner = 2.4f;
     public float radiusOuter = 4f;
     public float height = 0.2f;
@@ -29,7 +32,19 @@ public class FanBlock3DGenerator : MonoBehaviour
     {
         if (Application.isPlaying)
         {
-            CreateScoreTriggerSafely();
+            // ゲームオーバーブロックには ScoreTrigger を作らない
+            if (!isGameOverBlock)
+            {
+                CreateScoreTriggerSafely();
+            }
+            else
+            {
+                // GameOverBlockMarker がなければ追加
+                if (GetComponent<GameOverBlockMarker>() == null)
+                {
+                    gameObject.AddComponent<GameOverBlockMarker>();
+                }
+            }
         }
     }
 
