@@ -8,10 +8,25 @@ public class CameraFollow : MonoBehaviour
     public float height = 2f;       // 高さ
     public float smoothSpeed = 5f;  // 追従のなめらかさ
 
-    public float fixedAngleX = 30f; // ← X軸の固定角度
+    public float fixedAngleX = 30f; // X軸の固定角度
 
     private void LateUpdate()
     {
+        // target や center が未設定なら自動で探す
+        if (target == null)
+        {
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null)
+                target = playerObj.transform;
+        }
+
+        if (center == null)
+        {
+            GameObject centerObj = GameObject.FindWithTag("TowerCenter");
+            if (centerObj != null)
+                center = centerObj.transform;
+        }
+
         if (target == null || center == null)
             return;
 
@@ -26,10 +41,9 @@ public class CameraFollow : MonoBehaviour
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * smoothSpeed);
         transform.position = smoothedPosition;
 
-        // 回転だけ角度固定（X軸30度、Y軸はプレイヤーを向くように）
+        // 回転：X固定・Yはプレイヤー方向に追従
         Vector3 lookDir = target.position - transform.position;
         float angleY = Quaternion.LookRotation(lookDir).eulerAngles.y;
-
-        transform.rotation = Quaternion.Euler(fixedAngleX, angleY, 0f); // ← X=30°, Yは追従
+        transform.rotation = Quaternion.Euler(fixedAngleX, angleY, 0f);
     }
 }
