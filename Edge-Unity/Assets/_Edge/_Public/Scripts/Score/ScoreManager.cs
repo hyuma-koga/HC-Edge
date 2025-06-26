@@ -1,9 +1,13 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
+
+    [Header("UI")]
+    public GameObject scoreUI;
 
     public int score = 0;
     public TMP_Text scoreText;
@@ -20,6 +24,28 @@ public class ScoreManager : MonoBehaviour
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "GameScene")
+        {
+            SetScoreUIActive(true);
+        }
+        else
+        {
+            SetScoreUIActive(false);
+        }
     }
 
     public void AddScore(int baseValue)
@@ -52,5 +78,11 @@ public class ScoreManager : MonoBehaviour
         {
             scoreText.text = score.ToString();
         }
+    }
+
+    public void SetScoreUIActive(bool isActive)
+    {
+        if (scoreUI != null)
+            scoreUI.SetActive(isActive);
     }
 }

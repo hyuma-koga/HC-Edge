@@ -41,6 +41,8 @@ public class GameClearManager : MonoBehaviour
 
         isClearProcessed = true;
 
+        ScoreManager.Instance?.SetScoreUIActive(false);
+
         if (scoreText != null && ScoreManager.Instance != null)
         {
             scoreText.text = ScoreManager.Instance.score.ToString();
