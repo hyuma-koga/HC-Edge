@@ -39,36 +39,26 @@ public class GameClearManager : MonoBehaviour
 
         isClearProcessed = true;
 
-        // スコアUI非表示
+        StageManager.Instance?.AdvanceToNextStageAndSave();
+
         ScoreManager.Instance?.SetScoreUIActive(false);
 
-        // スコア表示更新
         if (scoreText != null && ScoreManager.Instance != null)
         {
             scoreText.text = ScoreManager.Instance.score.ToString();
         }
 
-        // UI表示
         if (gameClearUI != null)
         {
             gameClearUI.SetActive(true);
         }
 
-        // 次のステージ番号を保存（タイトル画面で読み込む）
-        if (StageManager.Instance != null)
-        {
-            int nextStage = StageManager.Instance.GetNextStageIndex();
-            PlayerPrefs.SetInt("SelectedStageIndex", nextStage);
-        }
-
-        // 遷移処理
         if (CloudTransitionManager.Instance != null)
         {
             CloudTransitionManager.Instance.GoToSceneWithDelay(delayBeforeTransition, titleSceneName);
         }
         else
         {
-            // 念のためフォールバック
             Invoke(nameof(LoadTitleScene), delayBeforeTransition);
         }
     }
