@@ -11,7 +11,9 @@ public class StageSelectorController : MonoBehaviour
 
         if (selectedIndex >= 0 && selectedIndex < stageTopPoints.Length && playerSelector != null)
         {
-            Vector3 point = stageTopPoints[selectedIndex].position + Vector3.up * 1.5f; // ’Œ‚Ìã + ­‚µã
+            Vector3 pillarXZ = stageTopPoints[selectedIndex].position;
+            float fixedY = 3.8f;
+            Vector3 point = new Vector3(pillarXZ.x, fixedY, pillarXZ.z);
 
             var bounce = playerSelector.GetComponent<PlayerSelectorBounce>();
             if (bounce != null)

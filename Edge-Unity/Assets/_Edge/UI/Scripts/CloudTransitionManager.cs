@@ -37,9 +37,7 @@ public class CloudTransitionManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// 通常のシーン遷移用スライド開始
-    /// </summary>
     public void GoToScene(string sceneName)
     {
         if (currentState != State.None) return;
@@ -50,9 +48,7 @@ public class CloudTransitionManager : MonoBehaviour
         StartSlide();
     }
 
-    /// <summary>
     /// スライド演出のみ（シーン遷移なし）
-    /// </summary>
     public void StartSlideOnly()
     {
         if (currentState != State.None) return;
@@ -63,9 +59,7 @@ public class CloudTransitionManager : MonoBehaviour
         StartSlide();
     }
 
-    /// <summary>
     /// 指定秒後に遷移演出を開始
-    /// </summary>
     public void GoToSceneWithDelay(float delaySeconds, string sceneName)
     {
         targetScene = sceneName;
@@ -74,9 +68,7 @@ public class CloudTransitionManager : MonoBehaviour
         Invoke(nameof(StartSlide), delaySeconds);
     }
 
-    /// <summary>
     /// 雲演出スライド開始処理（内部呼び出し用）
-    /// </summary>
     private void StartSlide()
     {
         cloudCanvas.gameObject.SetActive(true);
@@ -88,7 +80,10 @@ public class CloudTransitionManager : MonoBehaviour
 
     void Update()
     {
-        if (cloudPanel == null || cloudCanvas == null) return;
+        if (cloudPanel == null || cloudCanvas == null)
+        {
+            return;
+        }
 
         switch (currentState)
         {

@@ -36,7 +36,10 @@ public class GameClearManager : MonoBehaviour
 
     public void TriggerGameClear()
     {
-        if (isClearProcessed) return;
+        if (isClearProcessed)
+        {
+            return;
+        }
 
         isClearProcessed = true;
 

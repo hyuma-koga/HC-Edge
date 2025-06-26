@@ -31,9 +31,7 @@ public class StageManager : MonoBehaviour
         LoadStage(currentStageIndex);
     }
 
-    /// <summary>
-    /// 現在のステージを読み込み・生成
-    /// </summary>
+    // 現在のステージを読み込み・生成
     public void LoadStage(int index)
     {
         currentStageIndex = index;
@@ -49,40 +47,28 @@ public class StageManager : MonoBehaviour
         {
             Instantiate(stagePrefabs[index], stageSpawnPoint.position, Quaternion.identity, stageSpawnPoint);
         }
-        else
-        {
-            Debug.LogWarning($"Stage index {index} は範囲外です");
-        }
     }
 
-    /// <summary>
-    /// 次のステージインデックスを取得（ループ）
-    /// </summary>
+    // 次のステージインデックスを取得（ループ）
     public int GetNextStageIndex()
     {
         return (currentStageIndex + 1) % stagePrefabs.Length;
     }
 
-    /// <summary>
-    /// 現在のステージを保存
-    /// </summary>
+    // 現在のステージを保存
     public void SaveCurrentStageToPrefs()
     {
         PlayerPrefs.SetInt("SelectedStageIndex", currentStageIndex);
         PlayerPrefs.Save();
     }
 
-    /// <summary>
-    /// 保存されたステージを読み込み
-    /// </summary>
+    // 保存されたステージを読み込み
     public void LoadCurrentStageFromPrefs()
     {
         currentStageIndex = PlayerPrefs.GetInt("SelectedStageIndex", 0);
     }
 
-    /// <summary>
-    /// 次のステージを選択して保存（ゲームクリア時などに呼ぶ）
-    /// </summary>
+    // 次のステージを選択して保存（ゲームクリア時などに呼ぶ）
     public void AdvanceToNextStageAndSave()
     {
         currentStageIndex = GetNextStageIndex();

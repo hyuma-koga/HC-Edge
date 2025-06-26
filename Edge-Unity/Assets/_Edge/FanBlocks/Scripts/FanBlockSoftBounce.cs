@@ -34,6 +34,7 @@ public class FanBlockSoftBounce : MonoBehaviour
         for (int i = 0; i < modifiedVertices.Length; i++)
         {
             float distance = Vector3.Distance(modifiedVertices[i], localPoint);
+            
             if (distance < dentRadius)
             {
                 float influence = 1f - (distance / dentRadius);

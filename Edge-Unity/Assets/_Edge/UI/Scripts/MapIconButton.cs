@@ -9,9 +9,11 @@ public class MapIconButton : MonoBehaviour
 
     void Update()
     {
-        if (hasMoved || mapIcon == null) return;
+        if (hasMoved || mapIcon == null)
+        {
+            return;
+        }
 
-        // ƒ}ƒEƒX‚ª‰Ÿ‚³‚ê‚Ä‚¢‚Ä‰¡•ûŒü‚É“®‚¢‚½‚Æ‚«
         if (Input.GetMouseButton(0) && Mathf.Abs(Input.GetAxis("Mouse X")) > 0.01f)
         {
             mapIcon.SetActive(false);

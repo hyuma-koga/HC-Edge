@@ -9,7 +9,6 @@ public class FanBlock3DGenerator : MonoBehaviour
 {
     [Header("ゲームオーバー設定")]
     public bool isGameOverBlock = false;
-
     public float radiusInner = 2.4f;
     public float radiusOuter = 4f;
     public float height = 0.2f;
@@ -22,7 +21,11 @@ public class FanBlock3DGenerator : MonoBehaviour
         // エディタ上でパラメータ変更時に自動生成
         EditorApplication.delayCall += () =>
         {
-            if (this == null) return; // 削除された場合
+            if (this == null)
+            {
+                return;
+            }
+
             GenerateFanBlock3D();
         };
     }
@@ -131,7 +134,12 @@ public class FanBlock3DGenerator : MonoBehaviour
         GetComponent<MeshFilter>().sharedMesh = mesh;
 
         MeshCollider collider = GetComponent<MeshCollider>();
-        if (collider == null) collider = gameObject.AddComponent<MeshCollider>();
+
+        if (collider == null)
+        {
+            collider = gameObject.AddComponent<MeshCollider>();
+        }
+
         collider.sharedMesh = null;
         collider.sharedMesh = mesh;
         collider.convex = true;
@@ -142,7 +150,7 @@ public class FanBlock3DGenerator : MonoBehaviour
         float thisY = transform.position.y;
         float epsilon = 0.05f; // 誤差範囲（必要に応じて調整）
 
-        // 自分以外の FanBlock で、ほぼ同じ高さに ScoreTrigger を持つものがあるかチェック
+        
         bool triggerAlreadyExists = false;
         foreach (var other in Object.FindObjectsByType<FanBlock3DGenerator>(FindObjectsSortMode.None))
         {
@@ -157,7 +165,6 @@ public class FanBlock3DGenerator : MonoBehaviour
 
         if (triggerAlreadyExists)
         {
-            Debug.Log($"Y={thisY} に既に ScoreTrigger があるため生成スキップ");
             return;
         }
 
@@ -176,7 +183,6 @@ public class FanBlock3DGenerator : MonoBehaviour
         BoxCollider trigger = triggerObj.AddComponent<BoxCollider>();
         trigger.isTrigger = true;
         trigger.size = new Vector3(6f, 0.5f, 6f);
-
         triggerObj.AddComponent<ScoreTrigger>();
     }
 }

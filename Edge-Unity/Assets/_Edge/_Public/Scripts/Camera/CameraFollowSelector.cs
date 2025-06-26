@@ -10,7 +10,10 @@ public class CameraFollowSelector : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (target == null) return;
+        if (target == null)
+        {
+            return;
+        }
 
         // target‚ÌX‚ÆZ‚É‘Š‘ÎˆÊ’u‚ğ‰Á‚¦AY‚ÍŒÅ’è
         Vector3 desiredPosition = new Vector3(

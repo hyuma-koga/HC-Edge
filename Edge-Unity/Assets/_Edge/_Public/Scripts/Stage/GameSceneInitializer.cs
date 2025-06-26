@@ -6,9 +6,8 @@ public class GameSceneInitializer : MonoBehaviour
     {
         // ステージ生成
         StageManager.Instance?.LoadStage(StageManager.Instance.currentStageIndex);
-
-        // カメラのターゲットを探してセット
         var camFollow = Camera.main.GetComponent<CameraFollow>();
+
         if (camFollow != null)
         {
             // ステージ内の Player（Tag: Player を仮定）
@@ -16,10 +15,14 @@ public class GameSceneInitializer : MonoBehaviour
             GameObject centerObj = GameObject.FindWithTag("TowerCenter");
 
             if (playerObj != null)
+            {
                 camFollow.target = playerObj.transform;
-
+            }
+                
             if (centerObj != null)
+            {
                 camFollow.center = centerObj.transform;
+            } 
         }
 
         // スコアUI表示（初期化直後に有効に）

@@ -17,12 +17,7 @@ public class ScoreTrigger : MonoBehaviour
             {
                 ScoreManager.Instance.AddScore(1);
                 triggered = true;
-
                 Destroy(gameObject);
-            }
-            else
-            {
-                Debug.LogWarning("ScoreManager.Instance is null. Score not added.");
             }
         }
     }

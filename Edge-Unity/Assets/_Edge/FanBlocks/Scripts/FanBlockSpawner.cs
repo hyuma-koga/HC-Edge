@@ -5,15 +5,13 @@ public class FanBlockSpawner : MonoBehaviour
 {
     public GameObject fanBlockPrefab;
     public GameObject gameOverBlockPrefab;
-
     public float startY = 0f;
     public float endY = 90f;
     public float intervalY = 5f;
 
     private int blocksPerLevel = 2;
-    private float radius = 0f; // 配置用の半径
+    private float radius = 0f;
 
-    // 追加：ゲームオーバーブロックのY座標一覧
     private HashSet<float> gameOverYSet = new HashSet<float>();
 
     void Start()
@@ -26,7 +24,9 @@ public class FanBlockSpawner : MonoBehaviour
         for (float y = startY; y <= endY; y += intervalY)
         {
             if (Mathf.Approximately(y, startY) || Mathf.Approximately(y, endY))
+            {
                 continue;
+            }
 
             // ゲームオーバーブロック：15fごとに1個
             if (Mathf.Repeat(y, 15f) < 0.01f && gameOverBlockPrefab != null)
@@ -41,7 +41,11 @@ public class FanBlockSpawner : MonoBehaviour
                 GameObject gBlock = Instantiate(gameOverBlockPrefab, pos, rot, this.transform);
 
                 FanBlock3DGenerator gen = gBlock.GetComponent<FanBlock3DGenerator>();
-                if (gen != null) gen.GenerateFanBlock3D();
+                
+                if (gen != null)
+                {
+                    gen.GenerateFanBlock3D();
+                }
 
                 gBlock.AddComponent<GameOverBlockMarker>();
 
@@ -55,10 +59,15 @@ public class FanBlockSpawner : MonoBehaviour
         for (float y = startY; y <= endY; y += intervalY)
         {
             if (Mathf.Approximately(y, startY) || Mathf.Approximately(y, endY))
+            {
                 continue;
-
+            }
+                
             // このYにゲームオーバーブロックがあるならスキップ
-            if (gameOverYSet.Contains(y)) continue;
+            if (gameOverYSet.Contains(y))
+            {
+                continue;
+            }
 
             for (int i = 0; i < blocksPerLevel; i++)
             {

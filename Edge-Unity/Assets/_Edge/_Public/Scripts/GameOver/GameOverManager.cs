@@ -19,16 +19,33 @@ public class GameOverManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
-        if (gameOverUI != null) gameOverUI.SetActive(false);
-        if (timerImage != null) timerImage.fillAmount = 1f;
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(false);
+        }
+
+        if (timerImage != null)
+        {
+            timerImage.fillAmount = 1f;
+        }
     }
 
     public void TriggerGameOver()
     {
-        if (isGameOver) return;
+        if (isGameOver)
+        {
+            return;
+        }
+
         isGameOver = true;
 
         // スコアUI非表示
@@ -43,7 +60,10 @@ public class GameOverManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isGameOver) return;
+        if (!isGameOver)
+        {
+            return;
+        }
 
         // タイマー進行
         if (timer > 0f)

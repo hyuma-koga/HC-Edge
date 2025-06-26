@@ -24,7 +24,6 @@ public class PlayerCircleMovement : MonoBehaviour
         float currentMouseX = Input.mousePosition.x;
         float deltaX = currentMouseX - previousMouseX;
 
-        // X入力があったらMapボタン非表示（1回のみ）
         if (!mapHidden && Mathf.Abs(deltaX) > 0.01f && Input.GetMouseButton(0))
         {
             if (mapButton != null)
@@ -34,7 +33,6 @@ public class PlayerCircleMovement : MonoBehaviour
             mapHidden = true;
         }
 
-        // 長押し時に角度を更新
         if (Input.GetMouseButton(0))
         {
             angle += deltaX * sensitivity * Time.deltaTime;
@@ -42,18 +40,13 @@ public class PlayerCircleMovement : MonoBehaviour
         }
 
         previousMouseX = currentMouseX;
-
-        // 高さを追従して自然落下対応
         center.position = new Vector3(center.position.x, transform.position.y, center.position.z);
-
-        // 新しい位置を算出（XZ平面）
+        
         Vector3 offset = new Vector3(Mathf.Sin(angle), 0f, Mathf.Cos(angle)) * radius;
         Vector3 targetPos = center.position + offset;
+        
         targetPos.y = rb.position.y;
-
         rb.MovePosition(targetPos);
-
-        // 塔の中心を向く
         transform.LookAt(new Vector3(center.position.x, transform.position.y, center.position.z));
     }
 }

@@ -12,7 +12,6 @@ public class PlayerSquashBounce : MonoBehaviour
     private Vector3 currentVelocity;
     private bool isSquashing = false;
     private bool isReturning = false;
-
     private bool gameClearedOrOver = false;
 
     void Start()
@@ -27,7 +26,10 @@ public class PlayerSquashBounce : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("FanBlock")) return;
+        if (!collision.gameObject.CompareTag("FanBlock"))
+        {
+            return;
+        }
 
         isSquashing = true;
         isReturning = false;
@@ -35,9 +37,11 @@ public class PlayerSquashBounce : MonoBehaviour
         // コンボリセット
         ScoreManager.Instance?.ResetCombo();
 
-        if (gameClearedOrOver) return;
+        if (gameClearedOrOver)
+        {
+            return;
+        }
 
-        // ▼ 最終ブロック → ゲームクリア
         if (collision.gameObject.GetComponent<FinalFanBlockMarker>() != null)
         {
             gameClearedOrOver = true;
@@ -45,7 +49,6 @@ public class PlayerSquashBounce : MonoBehaviour
             return;
         }
 
-        // ▼ ゲームオーバーブロック → ゲームオーバー
         if (collision.gameObject.GetComponent<GameOverBlockMarker>() != null)
         {
             gameClearedOrOver = true;

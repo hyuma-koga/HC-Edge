@@ -83,6 +83,8 @@ public class ScoreManager : MonoBehaviour
     public void SetScoreUIActive(bool isActive)
     {
         if (scoreUI != null)
+        {
             scoreUI.SetActive(isActive);
+        }
     }
 }
