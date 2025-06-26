@@ -27,10 +27,9 @@ public class FanBlock3DGenerator : MonoBehaviour
 
     private void Start()
     {
-        // 実行時のみトリガー生成
         if (Application.isPlaying)
         {
-            CreateScoreTrigger();
+            CreateScoreTriggerSafely();
         }
     }
 
@@ -123,15 +122,38 @@ public class FanBlock3DGenerator : MonoBehaviour
         collider.convex = true;
     }
 
-    private void CreateScoreTrigger()
+    private void CreateScoreTriggerSafely()
     {
-        // 既存のトリガーがあれば削除
+        float thisY = transform.position.y;
+        float epsilon = 0.05f; // 誤差範囲（必要に応じて調整）
+
+        // 自分以外の FanBlock で、ほぼ同じ高さに ScoreTrigger を持つものがあるかチェック
+        bool triggerAlreadyExists = false;
+        foreach (var other in Object.FindObjectsByType<FanBlock3DGenerator>(FindObjectsSortMode.None))
+        {
+            if (other != this &&
+                Mathf.Abs(other.transform.position.y - thisY) < epsilon &&
+                other.transform.Find("ScoreTrigger") != null)
+            {
+                triggerAlreadyExists = true;
+                break;
+            }
+        }
+
+        if (triggerAlreadyExists)
+        {
+            Debug.Log($"Y={thisY} に既に ScoreTrigger があるため生成スキップ");
+            return;
+        }
+
+        // 既存のトリガーがあれば削除（再生成対策）
         Transform existing = transform.Find("ScoreTrigger");
         if (existing != null)
         {
             Destroy(existing.gameObject);
         }
 
+        // スコアトリガー生成
         GameObject triggerObj = new GameObject("ScoreTrigger");
         triggerObj.transform.SetParent(transform, false);
         triggerObj.transform.localPosition = new Vector3(0, -0.5f, 0);
