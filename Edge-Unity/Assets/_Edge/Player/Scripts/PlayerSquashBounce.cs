@@ -30,6 +30,11 @@ public class PlayerSquashBounce : MonoBehaviour
             isSquashing = true;
             isReturning = false;
         }
+
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.ResetCombo();
+        }
     }
 
     void Update()
