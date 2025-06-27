@@ -15,7 +15,6 @@ public class PlayerSelectorBounce : MonoBehaviour
     private Vector3 squashScale;
     private Vector3 currentVelocity;
     private Vector3 basePosition;
-
     private float bounceTimer;
     private float bounceProgress = 0f;
 
@@ -26,6 +25,7 @@ public class PlayerSelectorBounce : MonoBehaviour
         Returning,
         Bouncing
     }
+
     private BounceState state = BounceState.Idle;
 
     void Start()
@@ -82,6 +82,18 @@ public class PlayerSelectorBounce : MonoBehaviour
                 {
                     transform.position = basePosition;
                     state = BounceState.Idle;
+
+                    if (ColorSplash.staticSplashSprite != null)
+                    {
+                        Color color = Color.white;
+                        Renderer renderer = GetComponent<Renderer>();
+                        if (renderer != null)
+                        {
+                            color = renderer.material.color;
+                        }
+
+                        ColorSplash.Create(basePosition, color, null);
+                    }
                 }
                 break;
         }

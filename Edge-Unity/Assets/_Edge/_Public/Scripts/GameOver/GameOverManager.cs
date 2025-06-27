@@ -65,7 +65,6 @@ public class GameOverManager : MonoBehaviour
             return;
         }
 
-        // タイマー進行
         if (timer > 0f)
         {
             timer -= Time.deltaTime;
@@ -82,7 +81,6 @@ public class GameOverManager : MonoBehaviour
             }
         }
 
-        // マウスクリックでも即時タイトルへ
         if (Input.GetMouseButtonDown(0))
         {
             GoToTitle();

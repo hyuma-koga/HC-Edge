@@ -4,13 +4,11 @@ public class GameSceneInitializer : MonoBehaviour
 {
     void Start()
     {
-        // ステージ生成
         StageManager.Instance?.LoadStage(StageManager.Instance.currentStageIndex);
         var camFollow = Camera.main.GetComponent<CameraFollow>();
 
         if (camFollow != null)
         {
-            // ステージ内の Player（Tag: Player を仮定）
             GameObject playerObj = GameObject.FindWithTag("Player");
             GameObject centerObj = GameObject.FindWithTag("TowerCenter");
 
@@ -25,7 +23,6 @@ public class GameSceneInitializer : MonoBehaviour
             } 
         }
 
-        // スコアUI表示（初期化直後に有効に）
         ScoreManager.Instance?.SetScoreUIActive(true);
     }
 }

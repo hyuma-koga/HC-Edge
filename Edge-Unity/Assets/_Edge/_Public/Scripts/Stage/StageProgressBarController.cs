@@ -15,7 +15,7 @@ public class StageProgressBarController : MonoBehaviour
     public Image stageSliderImage;
 
     [Header("色設定")]
-    public Color filledColor = new Color(1f, 0.6f, 0f); // オレンジ
+    public Color filledColor = new Color(1f, 0.6f, 0f);
     public Color unfilledColor = Color.gray;
 
     [Header("進捗の基準")]
@@ -33,7 +33,6 @@ public class StageProgressBarController : MonoBehaviour
 
     private void Update()
     {
-        // 初回のみプレイヤーを検索して初期化
         if (!initialized)
         {
             GameObject player = GameObject.FindWithTag("Player");
@@ -41,7 +40,6 @@ public class StageProgressBarController : MonoBehaviour
             {
                 playerTransform = player.transform;
 
-                // ステージに応じた startY を設定
                 int stageIndex = StageManager.Instance?.currentStageIndex ?? 0;
 
                 switch (stageIndex)
@@ -63,17 +61,20 @@ public class StageProgressBarController : MonoBehaviour
     {
         int currentStage = StageManager.Instance?.currentStageIndex ?? 0;
         int totalStages = StageManager.Instance?.stagePrefabs.Length ?? 1;
-
         int nextStage = (currentStage + 1) % totalStages;
 
         currentStageText.text = (currentStage + 1).ToString();
         nextStageText.text = (nextStage + 1).ToString();
 
-        if (currentStageCircleImage != null)
+        if (currentStageCircleImage != null) 
+        {
             currentStageCircleImage.color = filledColor;
+        }
 
         if (nextStageCircleImage != null)
+        {
             nextStageCircleImage.color = unfilledColor;
+        }
 
         if (stageSliderImage != null)
         {
@@ -86,7 +87,10 @@ public class StageProgressBarController : MonoBehaviour
 
     private void UpdateProgressBar()
     {
-        if (playerTransform == null || stageSliderImage == null) return;
+        if (playerTransform == null || stageSliderImage == null)
+        {
+            return;
+        }
 
         float t = Mathf.InverseLerp(startY, goalY, playerTransform.position.y);
         stageSliderImage.fillAmount = Mathf.Clamp01(t);

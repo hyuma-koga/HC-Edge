@@ -8,7 +8,7 @@ public class GameClearManager : MonoBehaviour
     [Header("UI")]
     public GameObject gameClearUI;
     public Text scoreText;
-    public Text stageNumberText; // Å© í«â¡
+    public Text stageNumberText;
 
     [Header("ê›íË")]
     public float delayBeforeTransition = 3f;

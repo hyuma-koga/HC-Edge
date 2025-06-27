@@ -11,7 +11,6 @@ public class FanBlockSpawner : MonoBehaviour
 
     private int blocksPerLevel = 2;
     private float radius = 0f;
-
     private HashSet<float> gameOverYSet = new HashSet<float>();
 
     void Start()
@@ -39,7 +38,6 @@ public class FanBlockSpawner : MonoBehaviour
                 Quaternion rot = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
 
                 GameObject gBlock = Instantiate(gameOverBlockPrefab, pos, rot, this.transform);
-
                 FanBlock3DGenerator gen = gBlock.GetComponent<FanBlock3DGenerator>();
                 
                 if (gen != null)
@@ -48,8 +46,6 @@ public class FanBlockSpawner : MonoBehaviour
                 }
 
                 gBlock.AddComponent<GameOverBlockMarker>();
-
-                // このYには通常ブロックを置かないよう記録
                 gameOverYSet.Add(y);
                 continue;
             }
@@ -63,7 +59,6 @@ public class FanBlockSpawner : MonoBehaviour
                 continue;
             }
                 
-            // このYにゲームオーバーブロックがあるならスキップ
             if (gameOverYSet.Contains(y))
             {
                 continue;
@@ -80,8 +75,8 @@ public class FanBlockSpawner : MonoBehaviour
                 Quaternion rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
 
                 GameObject block = Instantiate(fanBlockPrefab, position, rotation, this.transform);
-
                 FanBlock3DGenerator generator = block.GetComponent<FanBlock3DGenerator>();
+               
                 if (generator != null)
                 {
                     generator.GenerateFanBlock3D();

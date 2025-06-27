@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3384469966284833921}
   - component: {fileID: 8093507085983106059}
   m_Layer: 0
-  m_Name: FanBlock
+  m_Name: FanBlock_02
   m_TagString: FanBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d78d60548fedbe34a8458c2d3f0bf617, type: 2}
+  - {fileID: 2100000, guid: 0575e1971dd77bf4b9599cfe77600b91, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
